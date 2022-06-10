@@ -51,12 +51,12 @@ type Msg
     | Update Task
 
 
-getNewId model =
-    Array.length (Array.fromList model.tasks) + 1
+getNewId tasks =
+    List.length tasks + 1
 
 
-getNewTaskList model newContent =
-    model.tasks ++ [ { id = getNewId model, name = newContent, state = Incomplete } ]
+getNewTaskList tasks newContent =
+    tasks ++ [ { id = getNewId tasks, name = newContent, state = Incomplete } ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -66,7 +66,7 @@ update msg model =
             ( { model | content = newContent }, Cmd.none )
 
         Add newContent ->
-            ( { model | content = model.content, tasks = getNewTaskList model newContent }, Cmd.none )
+            ( { model | content = model.content, tasks = getNewTaskList model.tasks newContent }, Cmd.none )
 
         Delete id ->
             ( { model
